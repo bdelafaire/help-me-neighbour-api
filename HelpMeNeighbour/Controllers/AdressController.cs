@@ -10,7 +10,7 @@ namespace HelpMeNeighbour.Controllers
 {
     //[Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("search")]
     public class AdressController : ControllerBase
     {
         private IAdressService _adressService;
@@ -19,8 +19,9 @@ namespace HelpMeNeighbour.Controllers
             _adressService = adressService;
         }
 
-        [HttpGet("{adress}")]
-        public IActionResult Search(string adress)
+        [HttpGet]
+        [Route("/adress")]
+        public IActionResult Search([FromQuery]string adress)
         {
             var adresses = _adressService.Search(adress).Result;
             return Ok(adresses);
