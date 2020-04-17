@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HelpMeNeighbour.Controllers
 {
-    [Authorize]
+
     [ApiController]
     [Route("[controller]")]
     public class UserController : ControllerBase
@@ -22,10 +22,10 @@ namespace HelpMeNeighbour.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("authenticate")]
+        [HttpPost("signin")]
         public IActionResult Authenticate([FromBody]AuthenticateModel model)
         {
-            var user = _userService.Authenticate(model.Username, model.Password);
+            var user = _userService.Authenticate(model.Email, model.Password);
 
             if (user == null)
                 return BadRequest(new { message = "Username or password is incorrect" });
@@ -33,11 +33,23 @@ namespace HelpMeNeighbour.Controllers
             return Ok(user);
         }
 
+        [Authorize]
         [HttpGet]
         public IActionResult GetAll()
         {
             var users = _userService.GetAll();
             return Ok(users);
         }
+
+
+        [HttpPost]
+        [Route("signup")]
+        public IActionResult CreateUser([FromBody]UserModel user)
+        {
+            var utilisateur = _userService.CreateUser(user);
+            return Ok(utilisateur);
+        }
+
+
     }
 }

@@ -18,9 +18,9 @@ namespace HelpMeNeighbour.Services
         {
             Candidate candidate = new Candidate();
             List<string> toto = new List<string>();
-            using(var client = new HttpClient())
+            using (var client = new HttpClient())
             {
-                var response = await client.GetAsync($"https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input={adress}&inputtype=textquery&fields=formatted_address&key=AIzaSyAibNWC9_iEgEODdLlVRB5WBeAzkhnkhN8");
+                var response = await client.GetAsync($"https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input={adress}&inputtype=textquery&fields=formatted_address&key={Environment.GetEnvironmentVariable("GCP_APIKEY")}");
                 if (response.IsSuccessStatusCode)
                 {
                     string serialize = await response.Content.ReadAsStringAsync();

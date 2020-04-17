@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace HelpMeNeighbour.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("address")]
     public class AdressController : ControllerBase
     {
         private IAdressService _adressService;
@@ -19,8 +19,9 @@ namespace HelpMeNeighbour.Controllers
             _adressService = adressService;
         }
 
-        [HttpGet("{adress}")]
-        public IActionResult Search(string adress)
+        [HttpGet]
+        [Route("/search")]
+        public IActionResult Search([FromQuery]string adress)
         {
             var adresses = _adressService.Search(adress).Result;
             return Ok(adresses);

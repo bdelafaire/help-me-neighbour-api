@@ -1,5 +1,8 @@
-﻿using HelpMeNeighbour.Entities;
+﻿using HelpMeNeighbour.Data;
+using HelpMeNeighbour.Entities;
 using HelpMeNeighbour.Helper;
+using HelpMeNeighbour.Models;
+using HelpMeNeighbour.Security;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -16,31 +19,36 @@ namespace HelpMeNeighbour.Services
     {
         User Authenticate(string username, string password);
         IEnumerable<User> GetAll();
+        User CreateUser(UserModel user);
     }
 
     public class UserService : IUserService
     {
-        // users hardcoded for simplicity, store in a db with hashed passwords in production applications
-        private List<User> _users = new List<User>
-        {
-            new User { Id = 1, FirstName = "Test", LastName = "User", Username = "test", Password = "test" }
-        };
-
+        ApplicationDbContext _context;
+        IPasswordHasher _passwordHasher;
         private readonly AppSettings _appSettings;
 
-        public UserService(IOptions<AppSettings> appSettings)
+        public UserService(IOptions<AppSettings> appSettings, ApplicationDbContext context, IPasswordHasher passwordHasher)
         {
             _appSettings = appSettings.Value;
+            _context = context;
+            _passwordHasher = passwordHasher;
         }
 
-        public User Authenticate(string username, string password)
+        public User Authenticate(string email, string password)
         {
-            var user = _users.SingleOrDefault(x => x.Username == username && x.Password == password);
+            var user = _context.User.Single(user => user.Email == email);
 
             // return null if user not found
             if (user == null)
                 return null;
 
+
+            if (!_passwordHasher.Check(password, user.Password))
+            {
+                return null;
+            }
+            
             // authentication successful so generate jwt token
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
@@ -59,9 +67,27 @@ namespace HelpMeNeighbour.Services
             return user.WithoutPassword();
         }
 
+        public User CreateUser(UserModel user)
+        {
+            string hash = _passwordHasher.Hash(user.Password);
+            User userToAdd = new User
+            {
+                Id = Guid.NewGuid().ToString(),
+                LastName = user.LastName,
+                FirstName = user.FirstName,
+                Email = user.Email,
+                Address = user.PlaceId,
+                Password = hash
+            };
+            _context.Add(userToAdd);
+            _context.SaveChanges();
+
+            return userToAdd.WithoutPassword();
+        }
+
         public IEnumerable<User> GetAll()
         {
-            return _users.WithoutPasswords();
+            return _context.User.WithoutPasswords();
         }
     }
 }
