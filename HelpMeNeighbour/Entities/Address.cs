@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HelpMeNeighbour.Entities
 {
-    public class Adress
+    public class Address
     {
         [JsonPropertyName("formatted_address")]
         public string Formatted_address { get; set; }

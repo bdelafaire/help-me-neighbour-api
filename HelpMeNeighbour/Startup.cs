@@ -33,7 +33,7 @@ namespace HelpMeNeighbour
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
+            //services.AddCors();
             services.AddControllers();
 
             // configure strongly typed settings objects
@@ -74,7 +74,7 @@ namespace HelpMeNeighbour
 
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IAdressService, AdressService>();
+            services.AddScoped<IAddressService, AddressService>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
         }
 
@@ -86,7 +86,7 @@ namespace HelpMeNeighbour
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
             app.UseAuthentication();

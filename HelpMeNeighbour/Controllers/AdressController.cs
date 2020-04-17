@@ -10,20 +10,21 @@ namespace HelpMeNeighbour.Controllers
 {
     //[Authorize]
     [ApiController]
-    [Route("address")]
-    public class AdressController : ControllerBase
+    [Route("[controller]")]
+    public class AddressController : ControllerBase
     {
-        private IAdressService _adressService;
-        public AdressController(IAdressService adressService)
+        private IAddressService _adressService;
+        public AddressController(IAddressService adressService)
         {
             _adressService = adressService;
         }
 
         [HttpGet]
-        [Route("/search")]
-        public IActionResult Search([FromQuery]string adress)
+        [AllowAnonymous]
+        [Route("search")]
+        public IActionResult Search([FromQuery]string q)
         {
-            var adresses = _adressService.Search(adress).Result;
+            var adresses = _adressService.Search(q).Result;
             return Ok(adresses);
         }
     }
