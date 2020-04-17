@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HelpMeNeighbour.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("address")]
     public class AdressController : ControllerBase
