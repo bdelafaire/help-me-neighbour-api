@@ -32,8 +32,8 @@ namespace HelpMeNeighbour.Controllers
 
             return Ok(user);
         }
+        [AllowAnonymous]
 
-        [Authorize]
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -41,7 +41,7 @@ namespace HelpMeNeighbour.Controllers
             return Ok(users);
         }
 
-
+        
         [HttpPost]
         [Route("signup")]
         public IActionResult CreateUser([FromBody]UserModel user)

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using HelpMeNeighbour.Data;
 using HelpMeNeighbour.Helper;
+using HelpMeNeighbour.mapper;
 using HelpMeNeighbour.Security;
 using HelpMeNeighbour.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -44,11 +46,18 @@ namespace HelpMeNeighbour
             var appSettings = appSettingsSection.Get<AppSettings>();
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
 
-            string MYSQL_HOST = Environment.GetEnvironmentVariable("MYSQL_HOST");
-            string MYSQL_PORT = Environment.GetEnvironmentVariable("MYSQL_PORT");
-            string MYSQL_DBNAME = Environment.GetEnvironmentVariable("MYSQL_DBNAME");
-            string MYSQL_USER = Environment.GetEnvironmentVariable("MYSQL_USER");
-            string MYSQL_PWD = Environment.GetEnvironmentVariable("MYSQL_PWD");
+            //string MYSQL_HOST = Environment.GetEnvironmentVariable("MYSQL_HOST");
+            //string MYSQL_PORT = Environment.GetEnvironmentVariable("MYSQL_PORT");
+            //string MYSQL_DBNAME = Environment.GetEnvironmentVariable("MYSQL_DBNAME");
+            //string MYSQL_USER = Environment.GetEnvironmentVariable("MYSQL_USER");
+            //string MYSQL_PWD = Environment.GetEnvironmentVariable("MYSQL_PWD");
+
+            string MYSQL_HOST = "db.cqekxen6kfur.eu-west-2.rds.amazonaws.com";
+            string MYSQL_PORT = "3306";
+            string MYSQL_DBNAME = "help_me_neighbor";
+            string MYSQL_USER = "admin";
+            string MYSQL_PWD = "{K8Hj2BH5f:33bWa";
+
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseMySql($"server ={MYSQL_HOST} ; port = {MYSQL_PORT}; database ={MYSQL_DBNAME}; user = {MYSQL_USER}; password = {MYSQL_PWD}");
@@ -72,8 +81,17 @@ namespace HelpMeNeighbour
                 };
             });
 
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAdService, AdService>();
+            services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IAddressService, AddressService>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
         }
