@@ -32,8 +32,8 @@ namespace HelpMeNeighbour.Controllers
 
             return Ok(user);
         }
-        [AllowAnonymous]
 
+        [Authorize]
         [HttpGet]
         public IActionResult GetAll()
         {
