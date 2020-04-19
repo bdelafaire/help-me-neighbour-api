@@ -28,15 +28,16 @@ namespace HelpMeNeighbour.Controllers
             return Ok(ad);
         }
 
+        [HttpPost]
         [Route("create")]
-        public IActionResult Create(AdModel adModel)
+        public IActionResult Create([FromBody]Ad adModel)
         {
-            if (adModel == null && string.IsNullOrEmpty(adModel.Id))
+            if (adModel == null || string.IsNullOrEmpty(adModel.Id))
             {
                 return BadRequest(new { message = "Bad Json" });
             }
-                var ad = _adservice.CreateAd(adModel);
-                return Ok(ad);
+            var ad = _adservice.CreateAd(adModel);
+            return Ok(ad);
         }
 
         [Route("{id}")]

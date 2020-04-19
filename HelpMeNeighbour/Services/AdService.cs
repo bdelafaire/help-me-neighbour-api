@@ -10,7 +10,7 @@ namespace HelpMeNeighbour.Services
 {
     public interface IAdService
     {
-        Ad CreateAd(AdModel ad);
+        Ad CreateAd(Ad ad);
         ICollection<Ad> GetAll();
         Ad GetById(string id);
         ICollection<Ad> GetByUserId(string userId);
@@ -23,18 +23,11 @@ namespace HelpMeNeighbour.Services
         {
             _context = context;
         }
-        public Ad CreateAd(AdModel ad)
+        public Ad CreateAd(Ad ad)
         {
-            Ad AdToAdd = new Ad
-            {
-                Id = ad.Id,
-                Description = ad.Description,
-                Bonus = ad.Bonus,
-                User = new User { Id = ad.IdUser}
-            };
-            _context.Add(AdToAdd);
+            _context.Add(ad);
             _context.SaveChanges();
-            return AdToAdd;
+            return ad;
         }
 
         public ICollection<Ad> GetAll()

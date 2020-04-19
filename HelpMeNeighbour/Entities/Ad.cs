@@ -25,7 +25,8 @@ namespace HelpMeNeighbour.Entities
         public string Picture { get; set; }
         public ICollection<AdCategory> AdCategories { get; set; }
         public ICollection<Message> Messages { get; set; }
-        [Column("id_user")]
+        [Column("UserId")]
+        public string UserId { get; set; }
         public User User { get; set; }
     }
 }
