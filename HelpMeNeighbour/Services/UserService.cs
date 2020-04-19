@@ -103,6 +103,11 @@ namespace HelpMeNeighbour.Services
                                     .Where(x => x.Type == "unique_name")
                                     .FirstOrDefault().Value;
             User user = _context.User.FirstOrDefault(x => x.Id == idUser );
+            if (user == null)
+            {
+                return null;
+            }
+            user.Token = token;
             return user.WithoutPassword();
         }
     }
