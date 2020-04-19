@@ -41,7 +41,7 @@ namespace HelpMeNeighbour.Controllers
             return Ok(users);
         }
 
-
+        
         [HttpPost]
         [Route("signup")]
         public IActionResult CreateUser([FromBody]UserModel user)

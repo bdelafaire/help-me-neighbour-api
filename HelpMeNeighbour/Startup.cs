@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using HelpMeNeighbour.Data;
 using HelpMeNeighbour.Helper;
+using HelpMeNeighbour.mapper;
 using HelpMeNeighbour.Security;
 using HelpMeNeighbour.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -49,6 +51,7 @@ namespace HelpMeNeighbour
             string MYSQL_DBNAME = Environment.GetEnvironmentVariable("MYSQL_DBNAME");
             string MYSQL_USER = Environment.GetEnvironmentVariable("MYSQL_USER");
             string MYSQL_PWD = Environment.GetEnvironmentVariable("MYSQL_PWD");
+
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseMySql($"server ={MYSQL_HOST} ; port = {MYSQL_PORT}; database ={MYSQL_DBNAME}; user = {MYSQL_USER}; password = {MYSQL_PWD}");
@@ -72,8 +75,17 @@ namespace HelpMeNeighbour
                 };
             });
 
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
             // configure DI for application services
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAdService, AdService>();
+            services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IAddressService, AddressService>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
         }
