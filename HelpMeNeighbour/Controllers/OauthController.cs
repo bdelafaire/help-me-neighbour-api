@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HelpMeNeighbour.Controllers
 {
-    [Route("oauth")]
+    [Route("[controller]")]
     public class OauthController : ControllerBase
     {
         IUserService _userService;
@@ -18,8 +18,8 @@ namespace HelpMeNeighbour.Controllers
         }
 
         [HttpGet]
-        [Route("{token}")]
-        public IActionResult GetByToken(string token)
+        [Route("check-token")]
+        public IActionResult GetByToken([FromQuery]string token)
         {
             var users = _userService.CheckToken(token);
             if (users == null)
