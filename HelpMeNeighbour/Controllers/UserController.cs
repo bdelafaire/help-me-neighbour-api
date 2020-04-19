@@ -47,7 +47,15 @@ namespace HelpMeNeighbour.Controllers
         public IActionResult CreateUser([FromBody]UserModel user)
         {
             var utilisateur = _userService.CreateUser(user);
-            return Ok(utilisateur);
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("token/{token}")]
+        public IActionResult GetByToken(string token)
+        {
+            var users = _userService.CheckToken(token);
+            return Ok(users);
         }
 
 

@@ -19,6 +19,7 @@ namespace HelpMeNeighbour.Services
     {
         User Authenticate(string username, string password);
         IEnumerable<User> GetAll();
+        User CheckToken(string token);
         User CreateUser(UserModel user);
     }
 
@@ -72,11 +73,11 @@ namespace HelpMeNeighbour.Services
             string hash = _passwordHasher.Hash(user.Password);
             User userToAdd = new User
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = user.Id,
                 LastName = user.LastName,
                 FirstName = user.FirstName,
                 Email = user.Email,
-                Address = user.PlaceId,
+                Address = user.Address,
                 Password = hash
             };
             _context.Add(userToAdd);
@@ -88,6 +89,13 @@ namespace HelpMeNeighbour.Services
         public IEnumerable<User> GetAll()
         {
             return _context.User.WithoutPasswords();
+        }
+
+        public User CheckToken(string token)
+        {
+            JwtSecurityTokenHandler jwtTokenHandler = new JwtSecurityTokenHandler();
+            var jwtToken = jwtTokenHandler.ReadJwtToken(token);
+            return new User();
         }
     }
 }

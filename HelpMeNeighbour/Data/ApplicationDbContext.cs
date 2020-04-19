@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Permissions;
 using System.Threading.Tasks;
 
 namespace HelpMeNeighbour.Data
@@ -45,6 +46,10 @@ namespace HelpMeNeighbour.Data
                 .HasOne(r => r.Reviewed)
                 .WithMany(u => u.Reviews)
                 .HasForeignKey(r => r.IdReviewed);
+
+            modelBuilder.Entity<User>()
+                .HasIndex(b => b.Email)
+                .IsUnique();
         }
     }
 }

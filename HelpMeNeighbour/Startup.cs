@@ -36,7 +36,7 @@ namespace HelpMeNeighbour
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddCors();
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(options => { options.JsonSerializerOptions.IgnoreNullValues = true; }); ;
 
             // configure strongly typed settings objects
             var appSettingsSection = Configuration.GetSection("AppSettings");
@@ -88,6 +88,7 @@ namespace HelpMeNeighbour
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IAddressService, AddressService>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
+            services.AddScoped<IAdService, AdService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

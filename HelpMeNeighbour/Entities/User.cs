@@ -21,7 +21,7 @@ namespace HelpMeNeighbour.Entities
         public string Salt { get; set; }
         [Column("password")]
         public string Password { get; set; }
-        [Column("adress")]
+        [Column("address")]
         public string Address { get; set; }
         [Column("zipcode")]
         public string ZipCode { get; set; }
