@@ -42,7 +42,7 @@ namespace HelpMeNeighbour.Services
 
         public ICollection<Ad> GetByUserId(string userId)
         {
-            return _context.Ad.Where(a => a.User.Id == userId).ToList();
+            return _context.Ad.Where(a => a.UserId == userId).ToList();
         }
     }
 }

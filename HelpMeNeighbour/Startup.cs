@@ -25,6 +25,7 @@ namespace HelpMeNeighbour
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "allowany";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -35,7 +36,14 @@ namespace HelpMeNeighbour
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.AllowAnyOrigin();
+                                  });
+            });
             services.AddControllers().AddJsonOptions(options => { options.JsonSerializerOptions.IgnoreNullValues = true; }); ;
 
             // configure strongly typed settings objects
@@ -103,6 +111,7 @@ namespace HelpMeNeighbour
             //app.UseHttpsRedirection();
 
             app.UseRouting();
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseAuthentication();
             app.UseAuthorization();
 

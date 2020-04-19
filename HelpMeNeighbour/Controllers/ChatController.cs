@@ -21,7 +21,7 @@ namespace HelpMeNeighbour.Controllers
         IUserService _userService;
 
 
-        ChatController(IPusherService pusherService, IUserService userService, ActionExecutedContext context) {
+        public ChatController(IPusherService pusherService, IUserService userService, ActionExecutedContext context) {
             _pusherService = pusherService;
             _userService = userService;
             _context = context;
