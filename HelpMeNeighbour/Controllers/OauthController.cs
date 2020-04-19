@@ -8,19 +8,24 @@ using System.Threading.Tasks;
 
 namespace HelpMeNeighbour.Controllers
 {
-    public class Oauth : ControllerBase
+    [Route("oauth")]
+    public class OauthController : ControllerBase
     {
         IUserService _userService;
-        public Oauth(IUserService user)
+        public OauthController(IUserService user)
         {
             _userService = user;
         }
 
         [HttpGet]
-        [Route("token/{token}")]
+        [Route("{token}")]
         public IActionResult GetByToken(string token)
         {
             var users = _userService.CheckToken(token);
+            if (users == null)
+            {
+                return BadRequest("Invalid Token or Token expire");
+            }
             return Ok(users);
         }
     }

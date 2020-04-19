@@ -50,13 +50,7 @@ namespace HelpMeNeighbour.Controllers
             return Ok();
         }
 
-        [HttpGet]
-        [Route("token/{token}")]
-        public IActionResult GetByToken(string token)
-        {
-            var users = _userService.CheckToken(token);
-            return Ok(users);
-        }
+
 
 
     }

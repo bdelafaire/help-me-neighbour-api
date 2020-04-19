@@ -95,7 +95,15 @@ namespace HelpMeNeighbour.Services
         {
             JwtSecurityTokenHandler jwtTokenHandler = new JwtSecurityTokenHandler();
             var jwtToken = jwtTokenHandler.ReadJwtToken(token);
-            return new User();
+            if (DateTime.Now > jwtToken.ValidTo)
+            {
+                return null;
+            }
+            string idUser = jwtToken.Claims
+                                    .Where(x => x.Type == "unique_name")
+                                    .FirstOrDefault().Value;
+            User user = _context.User.FirstOrDefault(x => x.Id == idUser );
+            return user.WithoutPassword();
         }
     }
 }
