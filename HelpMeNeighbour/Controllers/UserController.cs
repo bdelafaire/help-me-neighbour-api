@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace HelpMeNeighbour.Controllers
 {
-
+    [EnableCors("allowany")]
     [ApiController]
     [Route("[controller]")]
     public class UserController : ControllerBase
