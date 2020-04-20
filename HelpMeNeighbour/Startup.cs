@@ -97,7 +97,7 @@ namespace HelpMeNeighbour
             services.AddScoped<IAddressService, AddressService>();
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<IAdService, AdService>();
-            services.AddSingleton<IPusherService, PusherService>();
+            //services.AddSingleton<IPusherService, PusherService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
