@@ -111,11 +111,7 @@ namespace HelpMeNeighbour
             //app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors(builder => builder
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .AllowCredentials());
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseAuthentication();
             app.UseAuthorization();
 

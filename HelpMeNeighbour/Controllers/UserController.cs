@@ -1,6 +1,7 @@
 ﻿using HelpMeNeighbour.Models;
 using HelpMeNeighbour.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace HelpMeNeighbour.Controllers
 
         [AllowAnonymous]
         [HttpPost("signin")]
+        [EnableCors("allowany")]
         public IActionResult Authenticate([FromBody]AuthenticateModel model)
         {
             var user = _userService.Authenticate(model.Email, model.Password);
@@ -35,6 +37,7 @@ namespace HelpMeNeighbour.Controllers
 
         [Authorize]
         [HttpGet]
+        [EnableCors("allowany")]
         public IActionResult GetAll()
         {
             var users = _userService.GetAll();
@@ -44,6 +47,7 @@ namespace HelpMeNeighbour.Controllers
         
         [HttpPost]
         [Route("signup")]
+        [EnableCors("allowany")]
         public IActionResult CreateUser([FromBody]UserModel user)
         {
             var utilisateur = _userService.CreateUser(user);
